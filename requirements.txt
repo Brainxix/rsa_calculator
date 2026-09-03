@@ -1,0 +1,11 @@
+# Django
+Django>=6.0,<7.0
+
+# Django REST Framework
+djangorestframework>=3.14,<4.0
+
+# Environment variables
+python-dotenv>=1.0,<2.0
+
+# Production server (when ready)
+gunicorn>=21.0,<23.0
