@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
-import { fetchCalculations } from "../services/api";
+
+const HISTORY_KEY = "rsaCalculations";
+
+function loadHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
 
 export default function CalculationsList() {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchCalculations()
-      .then(setItems)
-      .catch((e) => setError(e.message || "Failed to load"))
-      .finally(() => setLoading(false));
+    setItems(loadHistory());
   }, []);
 
-  if (loading) return <div className="card">Loading…</div>;
-  if (error) return <div className="card error-banner">{error}</div>;
   if (!items.length)
     return <div className="card">No past calculations yet.</div>;
 

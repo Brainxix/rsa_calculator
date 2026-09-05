@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { submitCalculation } from "../services/api";
+import { runCalculation } from "../services/calculations";
+import ResultsPage from "./ResultsPage";
 
 const initial = {
   customer_name: "",
@@ -8,6 +9,18 @@ const initial = {
   rsa_pin: "",
   rsa_balance: "",
 };
+
+const HISTORY_KEY = "rsaCalculations";
+
+function saveToHistory(result) {
+  try {
+    const existing = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+    existing.unshift(result); // newest first
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(existing));
+  } catch {
+    // localStorage unavailable — fail silently, calculation still works
+  }
+}
 
 function validateClient(form) {
   const errors = {};
@@ -22,35 +35,24 @@ function validateClient(form) {
   return errors;
 }
 
-function formatNaira(value) {
-  return "₦" + Number(value).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
-
 export default function CalculatorForm({ onSuccess }) {
   const [form, setForm] = useState(initial);
   const [errors, setErrors] = useState({});
   const [result, setResult] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
   const [banner, setBanner] = useState("");
 
   const update = (e) => {
     const { name, value } = e.target;
 
     if (name === "rsa_pin") {
-      // Always start with "PEN", then allow up to 12 digits
       const digitsOnly = value.replace(/[^0-9]/g, "");
       const trimmed = digitsOnly.slice(0, 12);
       const next = `PEN${trimmed}`;
       setForm({ ...form, [name]: next });
     } else if (name === "mayfresh_account_number") {
-      // Numbers only, max 10
       const digitsOnly = value.replace(/[^0-9]/g, "").slice(0, 10);
       setForm({ ...form, [name]: digitsOnly });
     } else if (name === "rsa_balance") {
-      // Numbers + single decimal point
       let cleaned = value.replace(/[^0-9.]/g, "");
       const firstDot = cleaned.indexOf(".");
       if (firstDot !== -1) {
@@ -60,7 +62,6 @@ export default function CalculatorForm({ onSuccess }) {
       }
       setForm({ ...form, [name]: cleaned });
     } else {
-      // Force uppercase for text fields
       setForm({ ...form, [name]: value.toUpperCase() });
     }
 
@@ -69,7 +70,7 @@ export default function CalculatorForm({ onSuccess }) {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setBanner("");
 
@@ -80,27 +81,12 @@ export default function CalculatorForm({ onSuccess }) {
     }
 
     setErrors({});
-    setSubmitting(true);
     try {
-      const payload = {
-        ...form,
-        rsa_balance: parseFloat(form.rsa_balance),
-      };
-      const res = await submitCalculation(payload);
+      const res = runCalculation(form);
+      saveToHistory(res);
       setResult(res);
     } catch (err) {
-      if (err && typeof err === "object") {
-        const flat = {};
-        Object.keys(err).forEach((k) => {
-          flat[k] = Array.isArray(err[k]) ? err[k][0] : err[k];
-        });
-        setErrors(flat);
-        setBanner("Please correct the highlighted fields.");
-      } else {
-        setBanner("Something went wrong. Please try again.");
-      }
-    } finally {
-      setSubmitting(false);
+      setBanner("Something went wrong. Please check your inputs and try again.");
     }
   };
 
@@ -113,56 +99,11 @@ export default function CalculatorForm({ onSuccess }) {
 
   if (result) {
     return (
-      <div className="card">
-        <h3 style={{ color: "var(--primary)", marginBottom: 12, fontSize: "1.1rem" }}>
-          Calculation Result
-        </h3>
-        <p style={{ color: "var(--text-light)", fontSize: "0.88rem", marginBottom: 18 }}>
-          {result.customer_name}
-        </p>
-
-        <div className="equity-highlight">
-          <div className="label">Equity Contribution</div>
-          <div className="amount">{formatNaira(result.equity_contribution)}</div>
-          <div className="sub">25% of RSA balance</div>
-        </div>
-
-        <div className="result" style={{ marginTop: 0 }}>
-          <div className="row">
-            <span className="label">Mayfresh Account</span>
-            <span className="value">{result.mayfresh_account_number}</span>
-          </div>
-          <div className="row">
-            <span className="label">RSA PIN</span>
-            <span className="value">{result.rsa_pin}</span>
-          </div>
-          <div className="row">
-            <span className="label">Customer Address</span>
-            <span className="value" style={{ textAlign: "right", maxWidth: "60%" }}>
-              {result.customer_address}
-            </span>
-          </div>
-          <div className="row">
-            <span className="label">RSA Balance</span>
-            <span className="value">{formatNaira(result.rsa_balance)}</span>
-          </div>
-          <div className="row">
-            <span className="label">Eligibility</span>
-            <span className="value">
-              <span className={`badge ${result.is_eligible ? "eligible" : "ineligible"}`}>
-                {result.is_eligible ? "✓ Eligible" : "✗ Not Eligible"}
-              </span>
-            </span>
-          </div>
-        </div>
-
-        <div className="btn-row">
-          <button className="secondary" onClick={reset}>
-            New Calculation
-          </button>
-          <button onClick={onSuccess}>View All</button>
-        </div>
-      </div>
+      <ResultsPage
+        result={result}
+        onNewCalculation={reset}
+        onViewAll={onSuccess}
+      />
     );
   }
 
@@ -240,9 +181,7 @@ export default function CalculatorForm({ onSuccess }) {
           </div>
         </div>
 
-        <button type="submit" disabled={submitting}>
-          {submitting ? "Calculating..." : "Calculate Equity Contribution"}
-        </button>
+        <button type="submit">Calculate Equity Contribution</button>
       </form>
     </div>
   );

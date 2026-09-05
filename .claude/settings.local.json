@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(python manage.py runserver 8000)",
-      "Bash(curl -s http://localhost:8000/calculator/)"
+      "Bash(curl -s http://localhost:8000/calculator/)",
+      "Bash(python manage.py makemigrations)",
+      "Bash(python manage.py migrate)"
     ]
   }
 }

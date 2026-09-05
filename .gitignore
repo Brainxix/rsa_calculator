@@ -73,3 +73,4 @@ coverage.xml
 # pip
 *.manifest
 *.spec
+.claude/

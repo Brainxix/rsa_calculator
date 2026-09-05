@@ -13,10 +13,29 @@ class RSAEquityRequestSerializer(serializers.ModelSerializer):
             "rsa_pin",
             "rsa_balance",
             "equity_contribution",
+            "property_amount",
+            "loan_facility_amount",
+            "monthly_repayment",
+            "management_processing_fee",
             "is_eligible",
+            "statement_date",
+            "property_offer_letter_date",
+            "second_verification_date",
             "created_at",
         ]
-        read_only_fields = ["id", "equity_contribution", "is_eligible", "created_at"]
+        read_only_fields = [
+            "id",
+            "equity_contribution",
+            "property_amount",
+            "loan_facility_amount",
+            "monthly_repayment",
+            "management_processing_fee",
+            "is_eligible",
+            "statement_date",
+            "property_offer_letter_date",
+            "second_verification_date",
+            "created_at",
+        ]
 
     def validate_mayfresh_account_number(self, value):
         if not value.isdigit() or len(value) != 10:
@@ -39,6 +58,6 @@ class RSAEquityRequestSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         instance = RSAEquityRequest(**validated_data)
-        instance.calculate_equity()
+        instance.run_all_calculations()
         instance.save()
         return instance
