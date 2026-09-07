@@ -439,6 +439,34 @@ export default function ResultsPage({
         </div>
       </div>
 
+      <div className="results-section credit-life-section">
+        <h3 className="section-title">
+          CERTIFICATE OF CREDIT LIFE INSURANCE
+        </h3>
+
+        <div className="results-grid">
+          <FieldRow
+            label="Name of Policy Holder"
+            value={result.customer_name}
+          />
+
+          <FieldRow
+            label="Address"
+            value={result.customer_address}
+          />
+
+          <FinancialRow
+            label="Sum Assured (₦)"
+            amount={result.loan_facility_amount}
+          />
+
+          <FinancialRow
+            label="Gross Premium (₦)"
+            amount={Math.round(result.property_amount * 0.005 * 100) / 100}
+          />
+        </div>
+      </div>
+
       <div className="btn-row">
         <button
           className="secondary"
