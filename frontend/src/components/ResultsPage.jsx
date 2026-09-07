@@ -358,14 +358,38 @@ export default function ResultsPage({
               result.management_processing_fee
             }
           />
-
-          <FinancialRow
-            label="Forced Save Value (₦)"
-            amount={result.property_amount}
-          />
         </div>
       </div>
 
+
+      <div className="results-section evaluation-section">
+        <h3 className="section-title">
+          EVALUATION REPORT
+        </h3>
+
+        <div className="results-grid">
+          <FinancialRow
+            label="Forced Sale Value (₦)"
+            amount={result.property_amount}
+          />
+
+          <FinancialRow
+            label="Fair Market Value (₦)"
+            amount={result.property_amount + 500000}
+          />
+
+          <div className="field-block eval-status-block">
+            <label>Status</label>
+            <div className="field-value-row">
+              <div className="field-value">
+                <span className={result.is_eligible ? "eval-badge eligible" : "eval-badge ineligible"}>
+                  {result.is_eligible ? "✓ ELIGIBLE" : "✗ NOT ELIGIBLE"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="btn-row">
         <button
           className="secondary"

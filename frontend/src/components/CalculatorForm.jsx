@@ -12,6 +12,14 @@ const initial = {
   rsa_balance: "",
 };
 
+// Formats a raw numeric string with thousand commas for display only
+function formatBalance(raw) {
+  if (!raw) return raw;
+  const [intPart, decPart] = raw.split(".");
+  const formatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return decPart !== undefined ? formatted + "." + decPart : formatted;
+}
+
 const HISTORY_KEY = "rsaCalculations";
 
 function saveToHistory(result) {
@@ -90,6 +98,7 @@ export default function CalculatorForm({ onSuccess }) {
         [name]: digitsOnly,
       });
     } else if (name === "rsa_balance") {
+      // Strip everything except digits and a single dot
       let cleaned = value.replace(/[^0-9.]/g, "");
 
       const firstDot = cleaned.indexOf(".");
@@ -102,6 +111,7 @@ export default function CalculatorForm({ onSuccess }) {
             .replace(/\./g, "");
       }
 
+      // Store raw numeric string (no commas) so parseFloat still works
       setForm({
         ...form,
         [name]: cleaned,
@@ -264,11 +274,10 @@ export default function CalculatorForm({ onSuccess }) {
 
             <input
               name="rsa_balance"
-              value={form.rsa_balance}
+              value={formatBalance(form.rsa_balance)}
               onChange={update}
-              type="number"
-              min="0"
-              step="0.01"
+              type="text"
+              inputMode="decimal"
               placeholder="0.00"
               className={
                 errors.rsa_balance ? "invalid" : ""
