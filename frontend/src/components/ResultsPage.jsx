@@ -182,7 +182,7 @@ function numberToWords(num) {
 
 /* ---------- Policy number helper ---------- */
 
-// Derives a unique 4-digit suffix from the result id (Date.now()) and
+// Derives a unique 7-digit suffix from the result id (Date.now()) and
 // customer name, so it is unique per customer and changes every calculation.
 function policyNumber(result) {
   const seed = String(result.id) + result.customer_name;
@@ -190,10 +190,9 @@ function policyNumber(result) {
   for (let i = 0; i < seed.length; i++) {
     hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
   }
-  // Map to 1000-9999 so it is always 4 digits
-  const suffix = 1000 + (hash % 9000);
-  const year = new Date(result.created_at).getFullYear();
-  return "ALLY/" + year + "/" + suffix;
+  // Map to 1000000-9999999 so it is always 7 digits
+  const suffix = 1000000 + (hash % 9000000);
+  return "NF2610" + suffix;
 }
 
 /* ---------- Copy button ---------- */
