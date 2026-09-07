@@ -180,6 +180,22 @@ function numberToWords(num) {
   return parts.join(" ") + " Naira Only";
 }
 
+/* ---------- Policy number helper ---------- */
+
+// Derives a unique 4-digit suffix from the result id (Date.now()) and
+// customer name, so it is unique per customer and changes every calculation.
+function policyNumber(result) {
+  const seed = String(result.id) + result.customer_name;
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  }
+  // Map to 1000-9999 so it is always 4 digits
+  const suffix = 1000 + (hash % 9000);
+  const year = new Date(result.created_at).getFullYear();
+  return "ALLY/" + year + "/" + suffix;
+}
+
 /* ---------- Copy button ---------- */
 
 function CopyButton({ text }) {
@@ -390,6 +406,39 @@ export default function ResultsPage({
           </div>
         </div>
       </div>
+      <div className="results-section certificate-section">
+        <h3 className="section-title">
+          CERTIFICATE OF INSURANCE FIRE MICROINSURANCE PLAN
+        </h3>
+
+        <div className="results-grid">
+          <FieldRow
+            label="Policy Number"
+            value={policyNumber(result)}
+          />
+
+          <FieldRow
+            label="Name of Policy Holder"
+            value={result.customer_name}
+          />
+
+          <FieldRow
+            label="Address"
+            value={result.customer_address}
+          />
+
+          <FinancialRow
+            label="Sum Assured (₦)"
+            amount={result.property_amount}
+          />
+
+          <FinancialRow
+            label="Gross Premium (₦)"
+            amount={Math.round(result.property_amount * 0.0015 * 100) / 100}
+          />
+        </div>
+      </div>
+
       <div className="btn-row">
         <button
           className="secondary"
