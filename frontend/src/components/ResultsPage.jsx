@@ -281,6 +281,7 @@ export default function ResultsPage({
   result,
   onNewCalculation,
   onViewAll,
+  onEdit,
 }) {
   return (
     <div className="card results-page">
@@ -467,6 +468,13 @@ export default function ResultsPage({
       </div>
 
       <div className="btn-row">
+        <button
+          className="secondary"
+          onClick={onEdit}
+        >
+          Edit
+        </button>
+
         <button
           className="secondary"
           onClick={onNewCalculation}

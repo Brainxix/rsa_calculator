@@ -70,8 +70,8 @@ function validateClient(form) {
   return errors;
 }
 
-export default function CalculatorForm({ onSuccess }) {
-  const [form, setForm] = useState(initial);
+export default function CalculatorForm({ onSuccess, initialForm }) {
+  const [form, setForm] = useState(initialForm || initial);
   const [errors, setErrors] = useState({});
   const [result, setResult] = useState(null);
   const [banner, setBanner] = useState("");
@@ -171,6 +171,7 @@ export default function CalculatorForm({ onSuccess }) {
         result={result}
         onNewCalculation={reset}
         onViewAll={onSuccess}
+        onEdit={() => { setResult(null); }}
       />
     );
   }
