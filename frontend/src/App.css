@@ -1,365 +1,49 @@
-.app {
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-/* ──────────────────────────────────────────────────────────
-   ResultsPage Styles
-   ────────────────────────────────────────────────────────── */
-
-.results-page {
-  padding: 28px;
-}
-
-.results-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.results-header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.results-customer {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-.results-account {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  font-family: "SF Mono", "Fira Code", monospace;
-}
-
-/* ── Equity Highlight ───────────────────────────────────── */
-.equity-highlight {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
-  color: #fff;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 24px;
-}
-
-.equity-highlight-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-}
-
-.equity-col {
-  flex: 1;
-}
-
-.equity-divider {
-  width: 2px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.2);
-  flex-shrink: 0;
-}
-
-.equity-label {
-  font-size: 0.78rem;
-  opacity: 0.75;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-}
-
-.equity-amount {
-  font-size: 2.2rem;
-  font-weight: 900;
-  color: var(--accent-light);
-  line-height: 1.1;
-}
-
-.equity-amount-sm {
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-/* ── Summary Grid ───────────────────────────────────────── */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  margin-bottom: 24px;
-}
-
-@media (max-width: 560px) {
-  .summary-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.summary-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px 16px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.summary-card:hover {
-  border-color: var(--primary-light);
-  box-shadow: 0 4px 16px rgba(13, 37, 56, 0.06);
-}
-
-.summary-card.highlight {
-  border-color: var(--accent);
-  background: linear-gradient(135deg, #fffdf5 0%, #fffaf0 100%);
-}
-
-.summary-label {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-light);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 6px;
-}
-
-.summary-value {
-  display: block;
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--primary);
-  line-height: 1.3;
-}
-
-.summary-card.highlight .summary-value {
-  color: var(--accent);
-}
-
-.summary-sub {
-  display: block;
-  font-size: 0.72rem;
-  color: var(--text-light);
-  margin-top: 4px;
-  opacity: 0.85;
-}
-
-/* ── Amortization Card ──────────────────────────────────── */
-.amortization-card {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 24px;
-}
-
-.amortization-title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 16px;
-}
-
-.amortization-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-@media (max-width: 560px) {
-  .amortization-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 12px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.detail-label {
-  font-size: 0.82rem;
-  color: var(--text-light);
-}
-
-.detail-value {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--primary);
-  font-family: "SF Mono", "Fira Code", monospace;
-}
-
-/* ── Dates Card ─────────────────────────────────────────── */
-.dates-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.dates-title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 16px;
-}
-
-.dates-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-
-@media (max-width: 560px) {
-  .dates-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.date-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  text-align: center;
-  padding: 12px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.date-label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-light);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.date-value {
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--primary);
-  font-family: "SF Mono", "Fira Code", monospace;
-}
-
-/* ── Disclaimer ─────────────────────────────────────────── */
-.disclaimer {
-  font-size: 0.78rem;
-  color: var(--text-light);
-  line-height: 1.5;
-  margin-bottom: 20px;
-  padding: 12px 14px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border-left: 3px solid var(--accent);
-}
-
-/* ── Badge ───────────────────────────────────────────────── */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 14px;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.badge.eligible {
-  background: var(--success-bg);
-  color: var(--success);
-}
-
-.badge.ineligible {
-  background: var(--error-bg);
-  color: var(--error);
-}
-
-/* ── Button Row ─────────────────────────────────────────── */
-.btn-row {
-  display: flex;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.btn-row button {
-  flex: 1;
-  margin: 0;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.1s, background 0.2s;
-}
-
-.btn-row button:first-child {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
-  color: #fff;
-}
-
-.btn-row button:first-child:hover {
-  opacity: 0.92;
-  transform: translateY(-1px);
-}
-
-.btn-row button.secondary {
-  background: linear-gradient(135deg, var(--text-light) 0%, var(--text) 100%);
-  color: #fff;
-}
-
-.btn-row button.secondary:hover {
-  opacity: 0.92;
-  transform: translateY(-1px);
-}
-
-.btn-row button:active {
-  transform: translateY(0);
-}
-
-/* Responsive tweaks */
-@media (max-width: 480px) {
-  .results-page {
-    padding: 20px;
-  }
-
-  .equity-highlight-inner {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
-  }
-
-  .equity-divider {
-    width: 48px;
-    height: 2px;
-  }
-
-  .equity-amount {
-    font-size: 1.8rem;
-  }
-
-  .btn-row {
-    flex-direction: column;
-  }
-
-  .btn-row button {
-    width: 100%;
-  }
-}
+.app { width:100%; max-width:720px; margin:0 auto; }
+.app-header { display:flex; align-items:center; gap:14px; margin-bottom:8px; }
+.results-page { padding:28px; }
+.results-header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+.results-header-left { display:flex; flex-direction:column; gap:4px; }
+.results-customer { font-size:1.25rem; font-weight:700; color:var(--primary); }
+.results-account { font-size:.9rem; color:var(--text-light); }
+.equity-highlight { background:linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%); color:#fff; border-radius:12px; padding:24px; margin-bottom:24px; }
+.equity-highlight-inner { display:flex; align-items:center; justify-content:space-between; gap:32px; }
+.equity-col { flex:1; }
+.equity-divider { width:2px; height:48px; background:rgba(255,255,255,.2); flex-shrink:0; }
+.equity-label { font-size:.78rem; opacity:.75; text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px; }
+.equity-amount { font-size:2.2rem; font-weight:900; color:var(--accent-light); line-height:1.1; }
+.equity-amount-sm { font-size:1.5rem; font-weight:700; line-height:1.1; }
+.summary-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:24px; }
+@media (max-width:560px) { .summary-grid { grid-template-columns:1fr; } }
+.summary-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px 16px; transition:border-color var(--ease), box-shadow var(--ease); }
+.summary-card:hover { border-color:var(--primary-light); box-shadow:0 4px 16px rgba(13,37,56,.07); }
+.summary-card.highlight { border-color:var(--accent); background:linear-gradient(135deg,#fffdf5 0%,#fffaf0 100%); }
+.summary-label { display:block; font-size:.75rem; font-weight:600; color:var(--text-light); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
+.summary-value { display:block; font-size:1.25rem; font-weight:800; color:var(--primary); line-height:1.3; }
+.summary-card.highlight .summary-value { color:var(--accent); }
+.summary-sub { display:block; font-size:.72rem; color:var(--text-light); margin-top:4px; opacity:.85; }
+.amortization-card { background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:24px; }
+.amortization-title { font-size:.85rem; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:.04em; margin-bottom:16px; }
+.amortization-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+@media (max-width:560px) { .amortization-grid { grid-template-columns:1fr; } }
+.detail-row { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:#fff; border-radius:8px; border:1px solid var(--border); }
+.detail-label { font-size:.82rem; color:var(--text-light); }
+.detail-value { font-size:.9rem; font-weight:700; color:var(--primary); }
+.dates-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:20px; }
+.dates-title { font-size:.85rem; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:.04em; margin-bottom:16px; }
+.dates-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+@media (max-width:560px) { .dates-grid { grid-template-columns:1fr; } }
+.date-item { display:flex; flex-direction:column; gap:4px; text-align:center; padding:12px; background:#f8fafc; border-radius:8px; border:1px solid var(--border); }
+.date-label { font-size:.72rem; font-weight:600; color:var(--text-light); text-transform:uppercase; letter-spacing:.04em; }
+.date-value { font-size:.88rem; font-weight:700; color:var(--primary); }
+.disclaimer { font-size:.78rem; color:var(--text-light); line-height:1.5; margin-bottom:20px; padding:12px 14px; background:#f8fafc; border-radius:8px; border-left:3px solid var(--accent); }
+.badge { display:inline-flex; align-items:center; padding:5px 14px; border-radius:999px; font-size:.78rem; font-weight:800; text-transform:uppercase; letter-spacing:.03em; }
+.badge.eligible   { background:var(--success-bg); color:var(--success); }
+.badge.ineligible { background:var(--error-bg); color:var(--error); }
+.btn-row { display:flex; gap:12px; margin-top:8px; }
+.btn-row button { flex:1; margin:0; padding:13px; border:none; border-radius:9px; font-size:.95rem; font-weight:600; cursor:pointer; transition:filter var(--ease), transform var(--ease), box-shadow var(--ease); }
+.btn-row button:first-child { background:linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%); color:#fff; }
+.btn-row button:first-child:hover { filter:brightness(1.08); transform:translateY(-2px); box-shadow:0 8px 22px rgba(13,37,56,.2); }
+.btn-row button.secondary { background:linear-gradient(135deg, var(--text-light) 0%, var(--text) 100%); color:#fff; }
+.btn-row button.secondary:hover { filter:brightness(1.08); transform:translateY(-2px); }
+.btn-row button:active { transform:translateY(0); box-shadow:none; }
+@media (max-width:480px) { .results-page { padding:20px; } .equity-highlight-inner { flex-direction:column; gap:16px; text-align:center; } .equity-divider { width:48px; height:2px; } .equity-amount { font-size:1.8rem; } .btn-row { flex-direction:column; } .btn-row button { width:100%; } }
