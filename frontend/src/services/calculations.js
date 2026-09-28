@@ -1,15 +1,14 @@
 // calculations.js
-// Mirrors the logic in Django's models.py RSAEquityRequest — runs entirely client-side.
+// Runs entirely client-side. All amounts are whole naira.
 
-const EQUITY_RATE = 0.25;
-const MANAGEMENT_FEE_RATE = 0.02;
 const LOAN_WINDOW_MIN = 400000;
 const LOAN_ROUNDING_UNIT = 100000;
 const REPAYMENT_ANNUAL_RATE = 0.09;
 const REPAYMENT_MONTHS = 120;
 
 function calculateEquity(rsaBalance) {
-  return Math.round(rsaBalance * EQUITY_RATE * 100) / 100;
+  // 25% = divide by 4, rounded to nearest naira
+  return Math.round(rsaBalance / 4);
 }
 
 function calculatePropertyAmount(equity) {
@@ -18,24 +17,27 @@ function calculatePropertyAmount(equity) {
 }
 
 function calculateLoanFacility(propertyAmount, equity) {
-  return Math.round((propertyAmount - equity) * 100) / 100;
+  return propertyAmount - equity; // both whole numbers
 }
 
 function calculateManagementFee(equity) {
-  // truncate down to 2 decimal places
-  return Math.floor(equity * MANAGEMENT_FEE_RATE * 100) / 100;
+  // 2% = divide by 50, rounded to nearest naira
+  return Math.round(equity / 50);
 }
 
 function calculateMonthlyRepayment(loanAmount) {
   const r = REPAYMENT_ANNUAL_RATE / 12;
   const n = REPAYMENT_MONTHS;
   const factor = (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-  const monthly = loanAmount * factor;
-  return Math.floor(monthly); // truncate to whole naira
+  return Math.floor(loanAmount * factor); // truncate to whole naira
 }
 
 function toISODate(date) {
-  return date.toISOString().split("T")[0]; // "YYYY-MM-DD"
+  // local date parts, so Nigerian time doesn't slip back a day after midnight
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
 function calculateDates() {
@@ -52,11 +54,6 @@ function calculateDates() {
   };
 }
 
-/**
- * Runs the full calculation, given the raw form input.
- * Returns an object shaped exactly like the old Django API response,
- * so ResultsPage.jsx needs NO changes.
- */
 export function runCalculation(form) {
   const rsaBalance = parseFloat(form.rsa_balance);
 
@@ -68,7 +65,7 @@ export function runCalculation(form) {
   const dates = calculateDates();
 
   return {
-    id: Date.now(), // fake id, since there's no backend to assign one
+    id: Date.now(),
     customer_name: form.customer_name,
     mayfresh_account_number: form.mayfresh_account_number,
     customer_address: form.customer_address,
