@@ -1,5 +1,5 @@
 // calculations.js
-// Runs entirely client-side. All amounts are whole naira.
+// Runs entirely client-side. All amounts are whole naira, rounded down.
 
 const LOAN_WINDOW_MIN = 400000;
 const LOAN_ROUNDING_UNIT = 100000;
@@ -7,8 +7,8 @@ const REPAYMENT_ANNUAL_RATE = 0.09;
 const REPAYMENT_MONTHS = 120;
 
 function calculateEquity(rsaBalance) {
-  // 25% = divide by 4, rounded to nearest naira
-  return Math.round(rsaBalance / 4);
+  // 25% = divide by 4, rounded down to whole naira
+  return Math.floor(rsaBalance / 4);
 }
 
 function calculatePropertyAmount(equity) {
@@ -21,8 +21,8 @@ function calculateLoanFacility(propertyAmount, equity) {
 }
 
 function calculateManagementFee(equity) {
-  // 2% = divide by 50, rounded to nearest naira
-  return Math.round(equity / 50);
+  // 2% = divide by 50, rounded down to whole naira
+  return Math.floor(equity / 50);
 }
 
 function calculateMonthlyRepayment(loanAmount) {
